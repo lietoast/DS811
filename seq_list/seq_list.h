@@ -1,12 +1,14 @@
 #ifndef _SEQ_LIST_H__
 #define _SEQ_LIST_H__
 
+#ifndef DS_811_STATUS__
 #define ERROR       0 // 出现错误
 #define OK          1 // 运行通过
 #define OVERFLOW    2 // 上溢
 #define UNDERFLOW   3 // 下溢
 #define NOT_PRESENT 4 // 元素不存在
 #define DUPLICATE   5 // 有重复元素
+#endif
 
 typedef int status_t;
 
