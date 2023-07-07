@@ -102,4 +102,20 @@ static status_t buy_node(sgln_t **ptr, elem_t val);
 */
 static void ret_node(sgln_t *ptr);
 
+/*
+	链表排序
+	对传入链表内的结点按其元素值进行升序排序
+*/
+void single_list_sort(sgl_t *list);
+
+/*
+	将新的结点插入到链表中, 并保持链表原来的顺序
+*/
+static void insert_by_order(sgl_t *list, sgln_t *n);
+
+/*
+	清空链表
+*/
+void single_list_clear(sgl_t *list);
+
 #endif

@@ -143,6 +143,14 @@ void single_list_destroy(sgl_t *list)
 }
 
 /*
+	单链表的清空
+*/
+void single_list_clear(sgl_t *list)
+{
+	single_list_destroy(list);
+}
+
+/*
 	单链表长度
 	返回单链表长度
 */
@@ -175,6 +183,58 @@ status_t single_list_update(sgl_t *list, int i, elem_t x)
 	p->element = x;
 
 	return OK;
+}
+
+/*
+	链表排序
+	对传入链表内的结点按其元素值进行升序排序
+*/
+void single_list_sort(sgl_t *list)
+{
+	if (list->len <= 1)
+		return;
+
+	sgln_t *p = list->first->link;
+	sgln_t *q = p->link;
+
+	list->first->link = NULL;
+	list->len = 1;
+
+	while (p != NULL)
+	{
+		q = p->link;
+		p->link = NULL;
+		insert_by_order(list, p);
+		p = q;
+	}
+}
+
+/*
+	将新的结点插入到链表中, 并保持链表原来的顺序
+*/
+static void insert_by_order(sgl_t *list, sgln_t *n)
+{
+	if (n->element < list->first->element)
+	{
+		n->link = list->first;
+		list->first = n;
+		list->len ++;
+		return;
+	}
+
+	sgln_t *p = list->first;
+	sgln_t *q = p->link;
+
+	while (q != NULL && q->element > n->element)
+	{
+		p = q;
+		q = p->link;
+	}
+	
+	n->link = p->link;
+	p->link = n;
+
+	list->len ++;
 }
 
 /*

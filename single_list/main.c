@@ -76,6 +76,12 @@ int main(void)
 		case 7:
 			single_list_output(&list);
 			break;
+		case 8:
+			single_list_sort(&list);
+			break;
+		case 9:
+			single_list_clear(&list);
+			break;
 		case 0:
 			break;
 		default:
