@@ -17,8 +17,8 @@ status_t header_list_init(hdlist_t *list)
 	if (list->head == NULL)
 		return ERROR;
 	
-	h->head->link = NULL;
-	h->len = 0;
+	list->head->link = NULL;
+	list->len = 0;
 	
 	return OK;
 }
@@ -43,6 +43,28 @@ status_t header_list_insert(hdlist_t *list, int i, elem_t x)
 
 	n->link = p->link;
 	p->link = n;
+	list->len ++;
+
+	return OK;
+}
+
+/*
+	删除结点
+*/
+status_t header_list_delete(hdlist_t *list, int i)
+{
+	if (i < 0 || i >= list->len)
+		return ERROR;
+
+	sgln_t *p = list->head;
+	int j;
+	for (j = 0; j < i; j ++)
+		p = p->link;
+	
+	sgln_t *q = p->link;
+	p->link = q->link;
+	ret_node(q);
+	list->len --;
 
 	return OK;
 }
@@ -51,10 +73,15 @@ static sgln_t *buy_node(elem_t val)
 {
 	sgln_t *n = malloc(sizeof(sgln_t));
 	if (n == NULL)
-		return NULL
+		return NULL;
 	
 	n->element = val;
 	n->link = NULL;
 
 	return n;
+}
+
+static void ret_node(sgln_t *node)
+{
+	free(node);
 }

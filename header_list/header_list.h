@@ -42,4 +42,13 @@ status_t header_list_init(hdlist_t *list);
 */
 status_t header_list_insert(hdlist_t *list, int i, elem_t x);
 
+/*
+	删除结点
+*/
+status_t header_list_delete(hdlist_t *list, int i);
+
+static sgln_t *buy_node(elem_t x);
+
+static void ret_node(sgln_t *node);
+
 #endif
