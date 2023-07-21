@@ -8,9 +8,8 @@
 #define UNDERFLOW   3 // 下溢
 #define NOT_PRESENT 4 // 元素不存在
 #define DUPLICATE   5 // 有重复元素
-#endif
-
 typedef int status_t;
+#endif
 
 typedef int elem_t; // 表中元素的类型
 
@@ -40,12 +39,8 @@ status_t seq_list_delete(sqlist_t *list, int i);
 static void seq_list_decr_capacity(sqlist_t *list);
 // 顺序表更新
 status_t seq_list_update(sqlist_t *list, int i, elem_t x);
-// 顺序表输出
-void seq_list_output(sqlist_t list);
-// 比较顺序表内两个元素
-static int cmpelem(const void *x, const void *y);
 // 顺序表排序
-void seq_list_sort(sqlist_t *list);
+void seq_list_sort(sqlist_t *list, int (*cmpelem)(const void *, const void *));
 // 顺序表清除
 void seq_list_clear(sqlist_t *list);
 // 顺序表撤销

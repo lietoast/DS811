@@ -107,35 +107,13 @@ status_t seq_list_update(sqlist_t *list, int i, elem_t x)
 	return OK;
 }
 
-// 顺序表输出
-void seq_list_output(sqlist_t list)
-{
-	printf("seq list{");
-	if (list.len <= 0)
-	{
-		printf("}\n");
-		return;
-	}
-	
-	int i;
-	for (i = 0; i < list.len-1; i ++)
-		printf("%d, ", list.elements[i]);
-	printf("%d}\n", list.elements[list.len-1]);
-}
-
 // 顺序表排序
-void seq_list_sort(sqlist_t *list)
+void seq_list_sort(sqlist_t *list, int (*cmpelem)(const void *, const void *))
 {
 	if (list->len < 2)
 		return;
 
 	mergesort(list->elements, list->len, sizeof(elem_t), cmpelem);
-}
-
-static int cmpelem(const void *x, const void * y)
-{
-	elem_t *a = x, *b = y;
-	return *a - * b;
 }
 
 // 顺序表清除

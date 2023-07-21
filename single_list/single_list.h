@@ -118,4 +118,16 @@ static void insert_by_order(sgl_t *list, sgln_t *n);
 */
 void single_list_clear(sgl_t *list);
 
+/*
+	将链表中数据值在a与b之间的元素删除（a<=b）
+*/
+void single_list_delete_range(sgl_t *list, elem_t a, elem_t b,int (*elem_in_range)(elem_t, elem_t, elem_t));
+
+/*
+	单链表逆置
+	将链表内下标在[begin,end]区间内的元素进行逆置
+	如有越界或begin>end，返回ERROR
+*/
+status_t single_list_reverse(sgl_t *list, int begin, int end);
+
 #endif

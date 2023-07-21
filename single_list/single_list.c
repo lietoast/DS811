@@ -238,6 +238,25 @@ static void insert_by_order(sgl_t *list, sgln_t *n)
 }
 
 /*
+	将链表中数据值在a与b之间的元素删除（a<=b）
+*/
+void single_list_delete_range(sgl_t *list, elem_t a, elem_t b,int (*elem_in_range)(elem_t, elem_t, elem_t))
+{
+	int i;
+	for (i = 0; i < list->len; i ++)
+	{
+		elem_t x;
+		single_list_find(list, i, &x);
+
+		if (!elem_in_range(a, b, x))
+			continue;
+
+		single_list_delete(list, i);
+		i --;
+	}
+}
+
+/*
 	创建结点
 	在堆上开辟一块结点空间，并通过ptr返回其地址
 	返回值：
@@ -265,4 +284,61 @@ static void ret_node(sgln_t *ptr)
 	free(ptr);
 	ptr = NULL;
 }
+
+/*
+	单链表逆置
+*/
+status_t single_list_reverse(sgl_t *list, int begin, int end)
+{
+	if (list->len <= 1 || begin == end)
+		return OK;
+	
+	if 	(begin < 0 || begin >= list->len || end < 0 || end >= list->len || begin > end)
+		return ERROR;
+
+	sgln_t *last = list->first;
+	int i;
+	for (i = 0; i < end; i ++)
+		last = last->link;
+
+	if (!begin)
+	{
+		for (i = 0; i < end; i ++)
+		{
+			sgln_t *p = list->first;
+			list->first = p->link;
+
+			p->link = last->link;
+			last->link = p;
+		}
+
+		return OK;
+	}
+	
+	sgln_t *p, *q;
+	p = list->first;
+	q = p->link;
+
+	for (i = 1; i < begin; i ++)
+	{
+		p = p->link;
+		q = q->link;
+	}
+
+	while (p->link != last)
+	{
+		p->link = q->link;
+		
+		q->link = last->link;
+		last->link = q;
+
+		q = p->link;
+	}
+
+	return OK;
+}
+
+
+
+
 
