@@ -8,9 +8,8 @@
 #define UNDERFLOW   3 // 下溢
 #define NOT_PRESENT 4 // 元素不存在
 #define DUPLICATE   5 // 有重复元素
-#endif
-
 typedef int status_t;
+#endif
 
 typedef int elem_t; // 表中元素的类型
 
