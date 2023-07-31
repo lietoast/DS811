@@ -4,22 +4,25 @@
 #ifndef DS_811_STATUS__
 #define ERROR       0 // 出现错误
 #define OK          1 // 运行通过
+#define NOT_PRESENT 4 // 不存在
+#define DUPLICATE   5 // 有重复元素
 typedef int status_t;
 #endif
 
 #ifndef CHAP_4_STATUS__
-#define ILLEGAL_STATUS 4 // 非法
+#define ILLEGAL_STATUS 11 // 非法
+#define ILLEGAL_INDEX  12 // 访问非法下标 
 #endif
+
+typedef int elem_t;
 
 typedef struct triple_array
 {
 	int m1;
 	int m2;
 	int m3;
-	int *array;
+	elem_t *array;
 }triarr_t;
-
-typedef int elem_t;
 
 /*
 	创建运算:
@@ -27,7 +30,7 @@ typedef int elem_t;
 	返回值:
 	成功分配则函数返回OK, 否则返回ERROR
 */
-stauts_t create_array(triarr_t *arr, int m1, int m2, int m3);
+status_t create_array(triarr_t *arr, int m1, int m2, int m3);
 
 /*
 	清除运算:
@@ -56,7 +59,7 @@ status_t store_array_item(triarr_t *arr, int i1, int i2, int i3, elem_t x);
 	判断数组arr是否存在, 若不存在, 则函数返回;
 	否则, 将函数中所有元素依次输出
 */
-void output_array(triarr_t arr);
+void output_array(triarr_t arr, void (*print_elem)(elem_t));
 
 /*
 	数组拷贝:
@@ -66,4 +69,4 @@ void output_array(triarr_t arr);
 */
 status_t copy_array(triarr_t *src, triarr_t *dest);
 
-#define
+#endif
