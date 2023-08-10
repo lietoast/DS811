@@ -45,7 +45,7 @@ status_t store_sparse_matrix(spmat_t *mat, int i, int j, elem_t x);
 	否则，对i、j进行下标检查，非法返回ERROR；
 	否则，将矩阵中下标为[i,j]处的元素通过x返回
 */
-status_t retrieve_sparse_matrix(spmat_t *mat, int i, int j);
+status_t retrieve_sparse_matrix(spmat_t *mat, int i, int j, elem_t *x);
 
 /*
 	输出运算
