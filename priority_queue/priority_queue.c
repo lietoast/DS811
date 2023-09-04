@@ -22,16 +22,84 @@ static void adjust_up(elem_t heap[], int current, void (*cmpelem)(elem_t, elem_t
 	}
 }
 
-void create_prio_queue(pq_t *pq, size_t max_size);
+static void adjust_down(elem_t heap[], int current, int border, void (*cmpelem)(elem_t, elem_t))
+{
+	int p = current;
+	int min_child, lchild;
+	elem_t temp;
 
-void destroy_prio_queue(pq_t *pq);
+	while ((lchild = (p<<1)+1) < border)
+	{
+		if (lchild + 1 < border && cmpelem(heap[lchild+1], heap[lchild]) <= 0)
+			min_child = lchild + 1;
+		else
+			min_child = lchild;
 
-bool ispqempty(pq_t pq);
+		if (cmpelem(heap[p], heap[min_child]) <= 0)
+			break;
+		else
+		{
+			temp = heap[p];
+			heap[p] = heap[min_child];
+			heap[min_child] = temp;
+			
+			p = min_child;
+		}
+	}
+}
 
-bool ispqfull(pq_t pq);
+void create_prio_queue(pq_t *pq, size_t max_size)
+{
+	pq->elements = malloc(max_size * sizeof(elem_t));
+	if (pq->elements == NULL)
+	{
+		pq = NULL;
+		return;
+	}
 
-size_t pqsize(pq_t pq);
+	pq->n = 0;
+	pq->max_size = max_size;
+}
 
-size_t append_qp(pq_t *pq, elem_t elem);
+void destroy_prio_queue(pq_t *pq)
+{
+	pq->n = 0;
+	pq->max_size = 0;
+	free(pq->elements);
+	pq->elements = NULL;
+}
 
-size_t serve(pq_t *pq, elem_t *x);
+bool ispqempty(pq_t pq)
+{
+	return pq.n == 0;
+}
+
+bool ispqfull(pq_t pq)
+{
+	return pq.n == pq.max_size;
+}
+
+size_t pqsize(pq_t pq)
+{
+	return pq.n;
+}
+
+size_t append_qp(pq_t *pq, elem_t elem)
+{
+	if (ispqfull(*pq))
+		return pqsize(*pq);
+
+	pq->elements[pq->n++] = elem;
+	adjust_up(pq->elements, pq->n - 1);
+}
+
+size_t serve(pq_t *pq, elem_t *x)
+{
+	if (ispqfull(*pq))
+		return pqsize(*pq);
+
+	*x = pq->elements[0];
+	pq->n --;
+	pq->elements[0] = pq->elements[pq->n];
+	adjust_down(pq->elements, 0, pq->n-1);
+}
