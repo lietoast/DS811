@@ -2,7 +2,7 @@
 
 #include "priority_queue.h"
 
-static void adjust_up(elem_t heap[], int current, void (*cmpelem)(elem_t, elem_t))
+static void adjust_up(elem_t heap[], int current, int (*cmpelem)(elem_t, elem_t))
 {
 	int p = current;
 	elem_t temp;
@@ -22,7 +22,7 @@ static void adjust_up(elem_t heap[], int current, void (*cmpelem)(elem_t, elem_t
 	}
 }
 
-static void adjust_down(elem_t heap[], int current, int border, void (*cmpelem)(elem_t, elem_t))
+static void adjust_down(elem_t heap[], int current, int border, int (*cmpelem)(elem_t, elem_t))
 {
 	int p = current;
 	int min_child, lchild;
@@ -53,7 +53,6 @@ void create_prio_queue(pq_t *pq, size_t max_size)
 	pq->elements = malloc(max_size * sizeof(elem_t));
 	if (pq->elements == NULL)
 	{
-		pq = NULL;
 		return;
 	}
 
@@ -84,22 +83,26 @@ size_t pqsize(pq_t pq)
 	return pq.n;
 }
 
-size_t append_qp(pq_t *pq, elem_t elem)
+size_t append_pq(pq_t *pq, elem_t elem, int (*cmpelem)(elem_t, elem_t))
 {
 	if (ispqfull(*pq))
 		return pqsize(*pq);
 
 	pq->elements[pq->n++] = elem;
-	adjust_up(pq->elements, pq->n - 1);
+	adjust_up(pq->elements, pq->n - 1, cmpelem);
+
+	return pq->n;
 }
 
-size_t serve(pq_t *pq, elem_t *x)
+size_t serve(pq_t *pq, elem_t *x, int (*cmpelem)(elem_t, elem_t))
 {
-	if (ispqfull(*pq))
+	if (ispqempty(*pq))
 		return pqsize(*pq);
 
 	*x = pq->elements[0];
 	pq->n --;
 	pq->elements[0] = pq->elements[pq->n];
-	adjust_down(pq->elements, 0, pq->n-1);
+	adjust_down(pq->elements, 0, pq->n-1, cmpelem);
+
+	return pq->n;
 }

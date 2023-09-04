@@ -13,8 +13,6 @@ typedef struct priority_queue
 	size_t max_size;  // 优先队列的容量
 }pq_t;
 
-static void adjust_up(elem_t heap[], int current, void (*cmpelem)(elem_t, elem_t));
-
 void create_prio_queue(pq_t *pq, size_t max_size);
 
 void destroy_prio_queue(pq_t *pq);
@@ -25,8 +23,8 @@ bool ispqfull(pq_t pq);
 
 size_t pqsize(pq_t pq);
 
-size_t append_qp(pq_t *pq, elem_t elem);
+size_t append_pq(pq_t *pq, elem_t elem, int (*cmpelem)(elem_t, elem_t));
 
-size_t serve(pq_t *pq, elem_t *x);
+size_t serve(pq_t *pq, elem_t *x, int (*cmpelem)(elem_t, elem_t));
 
 #endif
