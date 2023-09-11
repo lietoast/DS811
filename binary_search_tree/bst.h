@@ -29,5 +29,7 @@ bst_t *iter_search_bst(bst_t *tree, key_t key);
 // 成功返回true, 否则返回false
 bool insert_bst(bst_t *tree, entry_t e);
 
+// 删除操作
+bool delete_bst(bst_t **tree, entry_t e);
 
 #endif
